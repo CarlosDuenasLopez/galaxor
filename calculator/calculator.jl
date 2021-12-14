@@ -6,6 +6,7 @@ export CalcService, CalcController
 
 include("calc_persistence.jl")
 using .CalcPersistence
+CalcPersistence.init()
 
 include("calc_service.jl")
 using .CalcService

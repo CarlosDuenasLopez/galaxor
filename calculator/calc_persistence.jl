@@ -9,7 +9,7 @@ using DataFrames
 #     return maximum(r.id) + 1
 # end
 
-DB = SQLite.DB("test_db.db")
+DB = SQLite.DB("../test_db.db")
 # counter = detectCount()
 
 function init()
@@ -27,7 +27,12 @@ end
 
 function getFormula(id::Int)
     r = DBInterface.execute(DB, "SELECT formula_str FROM FORMULAS WHERE id = ?", (id,)) |> DataFrame
-    return r[!, 1][1]
+    try
+        println(typeof(r[!, 1][1]))
+        return r[!, 1][1]
+    catch
+        return "not found"
+    end
 end
 
 function getFormula(formula::String)
@@ -59,6 +64,7 @@ end
 
 
 # init()
+# insertFormula("x squared")
 # println(getFormula("x squared"))
 # println(detectCount())
 

@@ -17,4 +17,25 @@ function getAll()
     CalcPersistence.getAllFormulas()
 end
 
+function test(req)
+    return "jo"
+end
+
+
+function getAllFormulas()
+    return CalcPersistence.getAllFormulas()
+end
+
+function stdResp()
+    return "This route is not enabled"
+end
+
+# function callF()
+    
+# end
+
+# function f()
+#     return 2
+# end
+
 end # module
