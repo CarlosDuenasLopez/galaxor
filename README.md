@@ -8,6 +8,19 @@
 
  How exactly this will end up looking, I am not sure as of now.
 
+ ## How to run
+ - Install Julia from www.julialang.org
+ - Add julia to path (https://julialang.org/downloads/platform/)
+ - Enter the julia REPL by typing "julia" in the terminal
+ - Paste the following Script to install required depndencies:
+ ```Julia
+deps = ["HTTP", "JSON3", "Revise", "SQLite", "DataFrames"]
+using Pkg
+Pkg.add(deps)
+ ```
+ - go to the 'service_registry' directory and run the registry by typing ```julia registry.jl```in the terminal
+ - navigate to the microservices you want to start and type ```julia *name_of_microservice*``` in the terminal
+
 ## Current status
 Thus far there is a working service registry and a single microservice.
 The Calculator Microservice has no functionality as of now, aside from entering new entries into a database.
