@@ -1,6 +1,7 @@
 # calc_service.jl
 
 module CalcService
+using Base: String
 using Revise
 using ..CalcPersistence
 
@@ -30,12 +31,6 @@ function stdResp()
     return "This route is not enabled"
 end
 
-# function callF()
-    
-# end
 
-# function f()
-#     return 2
-# end
 
 end # module

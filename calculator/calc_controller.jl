@@ -21,14 +21,21 @@ HTTP.@register(ROUTER, "GET", "/formula/", getAll)
 standard_resp(req) = CalcService.stdResp()
 HTTP.@register(ROUTER, "GET", "/*", standard_resp)
 
+alive(req) = amAlive()
+HTTP.@register(ROUTER, "GET", "/alive", alive)
+
+function amAlive()
+    println("livin")
+    true
+end
 
 function requestHandler(req)
     obj = HTTP.handle(ROUTER, req)
     return HTTP.Response(200, JSON3.write(obj))
 end
 
-function run()
-    HTTP.serve(requestHandler, "0.0.0.0", 8080)
+function run(port)
+    HTTP.serve(requestHandler, "0.0.0.0", port)
 end
 
 end # module
