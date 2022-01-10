@@ -1,4 +1,4 @@
-module CalcPersistence
+module ClientPersistence
 
 using SQLite: sqlserialize
 using SQLite

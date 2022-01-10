@@ -1,21 +1,21 @@
-# calc_service.jl
+# Client_service.jl
 
-module CalcService
+module ClientService
 using Base: String
 using Revise
-using ..CalcPersistence
+using ..ClientPersistence
 
 
 function getFormula(req)
     if tryparse(Int, req) !== nothing
-        return CalcPersistence.getFormula(parse(Int, req))
+        return ClientPersistence.getFormula(parse(Int, req))
     else
-        return CalcPersistence.getFormula(req)
+        return ClientPersistence.getFormula(req)
     end
 end
 
 function getAll()
-    CalcPersistence.getAllFormulas()
+    ClientPersistence.getAllFormulas()
 end
 
 function test(req)
@@ -24,7 +24,7 @@ end
 
 
 function getAllFormulas()
-    return CalcPersistence.getAllFormulas()
+    return ClientPersistence.getAllFormulas()
 end
 
 function stdResp()

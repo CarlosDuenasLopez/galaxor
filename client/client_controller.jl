@@ -1,31 +1,30 @@
-# calc_controller.jl
+# client_controller.jl
 
-module CalcController
+module ClientController
 using HTTP: @register
 using Revise
 
 using HTTP, JSON3
-using ..CalcService
+using ..ClientService
 
 const ROUTER = HTTP.Router()
 
-getFormula(req) = CalcService.getFormula(HTTP.URIs.splitpath(req.target)[2])
+getFormula(req) = ClientService.getFormula(HTTP.URIs.splitpath(req.target)[2])
 HTTP.@register(ROUTER, "GET", "/formula/*", getFormula)
 
-newFormula(req) = CalcService.newFormua(HTTP.URIs.splitpath(req.target)[2])
+newFormula(req) = ClientService.newFormua(HTTP.URIs.splitpath(req.target)[2])
 HTTP.@register(ROUTER, "POST", "/formula/*", newFormula)
 
-getAll(req) =  CalcService.getAllFormulas()
+getAll(req) =  ClientService.getAllFormulas()
 HTTP.@register(ROUTER, "GET", "/formula/", getAll)
 
-standard_resp(req) = CalcService.stdResp()
+standard_resp(req) = ClientService.stdResp()
 HTTP.@register(ROUTER, "GET", "/*", standard_resp)
 
 alive(req) = amAlive()
 HTTP.@register(ROUTER, "GET", "/alive", alive)
 
 function amAlive()
-    println("livin")
     true
 end
 

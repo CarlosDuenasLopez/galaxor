@@ -1,12 +1,10 @@
-# MVM - Microservice Visual Maths
+# MVM - Galaxor
 
 
 
 ## About
 ---
- MVM is an application that lets users plot and animate mathematical functions as well as easily manipualte them and work with them.
-
- How exactly this will end up looking, I am not sure as of now.
+Galaxor is an application for simulating and visuaizig dynamic systems of planets and stars such aus our solar system.
 
 ## How to run
 - Install Julia from www.julialang.org
@@ -21,6 +19,23 @@ Pkg.add(deps)
 - go to the 'service_registry' directory and run the registry by typing ```julia registry.jl```in the terminal
 - navigate to the microservices you want to start and type ```julia *name_of_microservice*``` in the terminal
 
+---
+
+## The Microservices
+### Client:
+
+Lets the user enter configuration for different objects, such as planets and stars along with their position, velocity and mass
+
+
+### Simulator
+Reads planet configurations from the database and simulates their behaviour using Newton's law of general gravitation.
+
+
+### Painter
+Visualizes the results of the Simulation and displays the results to the user via gifs or on a webpage.
+
+
+---
 ## Current status
 Thus far there is a working service registry and a single microservice.
 The Calculator Microservice has no functionality as of now, aside from entering new entries into a database.
