@@ -32,8 +32,8 @@ function stdResp()
 end
 
 function addBody(req)
-    println(String(req.body))
-    return("NICE")
+    system_str = (String(req.body))
+    ClientPersistence.addBody(system_str)
 end
 
 

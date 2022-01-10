@@ -8,7 +8,6 @@ export ClientService, ClientController
 
 include("client_persistence.jl")
 using .ClientPersistence
-ClientPersistence.init()
 
 include("client_service.jl")
 using .ClientService
