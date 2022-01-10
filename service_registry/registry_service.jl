@@ -2,8 +2,10 @@ module RegistryService
 
 using ..RegistryPersistence
 
-function getPorts(service_name)
-    return RegistryPersistence.getPorts(service_name)
+function getValidPorts(service_name)
+    ps = RegistryPersistence.getValidPorts(service_name)
+    println("Ports: ", ps)
+    return ps
 end
 
 function registerNew(name)

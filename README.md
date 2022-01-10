@@ -82,3 +82,10 @@ which returns a port that is currently available.
 
 ---
 GET requests to /registry/*some_name* return all ports on which a microservice with *some_name* runs. What name a microservice has is determined by its ```register``` function. ("calculator" in the above example)
+
+## The Database
+All data is stored in redis.
+
+### Structure:
+- LIST "ports": A list of all ports
+- LISTS *serviceName*_services ports on which a *serviceName* runs

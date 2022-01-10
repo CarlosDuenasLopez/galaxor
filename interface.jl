@@ -10,8 +10,12 @@ function main()
             println("Enter path of json file:")
             path = readline()
             json_str = read(path, String)
-            json = JSON3.read(json_str)
-            println(json[1])
+
+            client_ports = split(String(getClient().body)[2:end-1], ", ")[1]
+
+            address = "http://127.0.0.1:$(client_ports)/add_body"
+            println(address)
+            HTTP.post(address, [], json_str)
         end
     elseif occursin("m", x)
         println("What's the name of the system?")
@@ -20,4 +24,9 @@ function main()
         pname = readline()
         println("Enter position like *x, y, z* ex.: \"10, 0, 0\"")
     end
+end
+
+
+function getClient()
+    HTTP.get("http://localhost:8080/registry/client")
 end

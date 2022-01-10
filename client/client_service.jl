@@ -31,6 +31,11 @@ function stdResp()
     return "This route is not enabled"
 end
 
+function addBody(req)
+    println(String(req.body))
+    return("NICE")
+end
+
 
 
 end # module

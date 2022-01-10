@@ -24,6 +24,9 @@ HTTP.@register(ROUTER, "GET", "/*", standard_resp)
 alive(req) = amAlive()
 HTTP.@register(ROUTER, "GET", "/alive", alive)
 
+add_body(req) = ClientService.addBody(req)
+HTTP.@register(ROUTER, "POST", "/add_body", add_body)
+
 function amAlive()
     true
 end

@@ -6,7 +6,7 @@ using ..RegistryService
 
 const ROUTER = HTTP.Router()
 
-getPorts(req) = RegistryService.getPorts(HTTP.URIs.splitpath(req.target)[2])
+getPorts(req) = RegistryService.getValidPorts(HTTP.URIs.splitpath(req.target)[2])
 HTTP.@register(ROUTER, "GET", "/registry/*", getPorts)
 
 registerNew(req) = RegistryService.registerNew(HTTP.URIs.splitpath(req.target)[2])
