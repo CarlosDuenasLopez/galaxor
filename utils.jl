@@ -12,5 +12,5 @@ function register(name)
 end
 
 function getServicePort(name)
-    split(String(HTTP.get("http://localhost:8080/registry/$name").body)[2:end-1], ",")[1] 
+    split(String(HTTP.get("http://localhost:8080/registry/$name").body)[2:end-1], ",")[1][2:end-1]
 end

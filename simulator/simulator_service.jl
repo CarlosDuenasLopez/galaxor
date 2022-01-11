@@ -1,7 +1,10 @@
 module SimulatorService
+using JSON3: include
 using ..SimulatorPersistence
 using JSON3
 using HTTP
+
+include("../utils.jl")
 
 function simulate(body)
     println("yo")
@@ -25,13 +28,12 @@ end
 
 function sendToAnimation(posis)
     body = JSON3.write(posis)
-    anim_port = getAnimator()
+    anim_port = getServicePort("animator")
     address = "http://127.0.0.1:$(anim_port)/animator"
     println(address)
     HTTP.post(address, [], body)
 end
 
-getAnimator() = split(String(HTTP.get("http://localhost:8080/registry/animator").body)[2:end-1], ",")[1]
 
 function calc_f(particle, other)
     G = 6.67408f-11

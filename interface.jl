@@ -33,6 +33,7 @@ function main()
                 println(sim_port)
                 address = "http://127.0.0.1:$(sim_port)/simulator"
                 println(body)
+                println(address)
                 HTTP.get(address, [], body)
             else
                 # print existing systems

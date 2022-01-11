@@ -1,20 +1,29 @@
 module AnimatorService
 using JSON3
+using JSON
+using GLMakie
 
 function animate(body)
     println("ANIMATING")
     posis = extract_posis(body)
-    vis(posis, length(posis[1]))
+    vis(Vector.(posis), length(posis[1]))
 end
 
 function extract_posis(body)
     posi_str = String(body)
-    posis = JSON3.read(posi_str)
+    posis = JSON.parse(posi_str)
+    for planet in posis
+        for ps in 1:length(planet)
+            planet[ps] = Vector{Float32}(planet[ps])
+        end
+    end
     posis
 end
 
 
 function vis(posis, frames)
+    println(posis)
+    println(typeof(posis))
     set_theme!(theme_black())
     fig = Figure(resolution = (1000, 1000))
     ax = Axis3(fig[1, 1], aspect = (1, 1, 1),

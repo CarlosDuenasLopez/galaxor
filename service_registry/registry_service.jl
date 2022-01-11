@@ -8,9 +8,8 @@ function getValidPorts(service_name)
 end
 
 function registerNew(name)
-    println("REGISTERING $name")
     r = RegistryPersistence.registerNew(name)
-    println("PORT: ", r)
+    println("registering $name on port: ", r)
     return r
 end
 

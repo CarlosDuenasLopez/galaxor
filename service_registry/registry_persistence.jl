@@ -7,59 +7,34 @@ using Redis
 CON = RedisConnection()
 
 
-function getValidPorts(name)
-    ports = getPorts(name)
-    valid_ports = []
-    for p in ports
-        try
-            x = HTTP.get("http://localhost:$p/alive", retries=0)
-            push!(valid_ports, p)
-        catch
-            lrem(CON, "ports", 0, p) # delete invalid port
-        end
-    end
-    return valid_ports
-end
-
-
-function getPorts(name)
-    clear_db(name)
-    ports = parse.(Int, lrange(CON, name * "_services", 0, -1))
-    return ports
-end
-
 function registerNew(name)
-    clear_db(name)
-    key = name * "_services"
-    registered_ports = lrange(CON, "ports", 0, -1)
+    ports = parse.(Int, hkeys(CON, "ports"))
     port = 0
     for i in 10_000:60_000
-        if string(i) ∉ registered_ports
+        if i ∉ ports
             port = i
             break
         end
     end
-    rpush(CON, "ports", port)
-    if name ∉ lrange(CON, "services", 0, -1)
-        rpush(CON, "services", name)
-    end
-    rpush(CON, key, port)
+    hset(CON, "ports", port, name)
     return port
 end
 
 
-function clear_db(name)
-    # remove database entries of services that are no longer active
-    all_ports = lrange(CON, "ports", 0, -1)
-    service_ports = lrange(CON, name * "_services", 0, -1)
-    for p in all_ports
-        try
-            x = HTTP.get("http://localhost:$p/alive", retries=0)
-        catch
-            lrem(CON, "ports", 0, p) # delete invalid port
-            lrem(CON, name * "_services", 0, p)
+function getValidPorts(name)
+    ports = hkeys(CON, "ports")
+    valids = []
+    for p in ports
+        if hget(CON, "ports", p) == name
+            try
+                HTTP.get("http://localhost:$p/alive", retries=0)
+                push!(valids, p)
+            catch
+                hdel(CON, "ports", p)
+            end
         end
     end
+    return valids
 end
 
 end # module
