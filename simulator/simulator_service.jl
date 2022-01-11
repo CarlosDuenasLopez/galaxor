@@ -1,26 +1,37 @@
 module SimulatorService
 using ..SimulatorPersistence
 using JSON3
-using JSON
+using HTTP
 
 function simulate(body)
     println("yo")
     sys_name, iterations, dt = extract(body)
     bodies = SimulatorPersistence.getBodies(sys_name)
     posis = run_sim(iterations, bodies, dt)
-    println(posis)
+    sendToAnimation(posis)
     return posis
 end
 
 
 function extract(body)
     body_str = String(body)
-    read_json = JSON.parse(body_str)
+    read_json = JSON3.read(body_str)
     sys_name = read_json["system"]
     iterations = read_json["iterations"]
     dt = read_json["dt"]
     return sys_name, iterations, dt
 end
+
+
+function sendToAnimation(posis)
+    body = JSON3.write(posis)
+    anim_port = getAnimator()
+    address = "http://127.0.0.1:$(anim_port)/animator"
+    println(address)
+    HTTP.post(address, [], body)
+end
+
+getAnimator() = split(String(HTTP.get("http://localhost:8080/registry/animator").body)[2:end-1], ",")[1]
 
 function calc_f(particle, other)
     G = 6.67408f-11

@@ -1,6 +1,7 @@
-using JSON3
 using JSON
+using JSON3
 using HTTP
+include("utils.jl")
 
 function main()
     println("Welcome to Galaxor!")
@@ -12,7 +13,7 @@ function main()
             path = readline()
             json_str = read(path, String)
 
-            client_port = getClient()
+            client_port = getServicePort("client")
 
             address = "http://127.0.0.1:$(client_port)/add_body"
             println(json_str)
@@ -25,10 +26,11 @@ function main()
                 iterations = parse(Int, readline())
                 println("Enter time step size")
                 dt = parse(Int, readline())
-                body = string(JSON.json(Dict("system"=>sys, "iterations"=>iterations, "dt"=>dt)))
+                d = Dict("system"=>sys, "iterations"=>iterations, "dt"=>dt)
+                body = JSON3.write(d)
                 JSON3.read(body)
-                sim_port = getSimulator()
-
+                sim_port = getServicePort("simulator")
+                println(sim_port)
                 address = "http://127.0.0.1:$(sim_port)/simulator"
                 println(body)
                 HTTP.get(address, [], body)
@@ -37,15 +39,4 @@ function main()
             end
         end
     end
-end
-
-
-function getSimulator()
-    println(String(HTTP.get("http://localhost:8080/registry/simulator").body))
-    split(String(HTTP.get("http://localhost:8080/registry/simulator").body)[2:end-1], ",")[1]
-end
-
-
-function getClient()
-    split(String(HTTP.get("http://localhost:8080/registry/client").body)[2:end-1], ",")[1]
 end

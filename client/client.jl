@@ -6,6 +6,8 @@ using HTTP
 
 export ClientService, ClientController
 
+include("../utils.jl")
+
 include("client_persistence.jl")
 using .ClientPersistence
 
@@ -19,16 +21,5 @@ function run(port)
     ClientController.run(port)
 end
 
-function register()
-    try
-        resp = HTTP.post("http://localhost:8080/registry/client")
-        port = parse(Int, String(resp.body))
-        run(port)
-    catch
-        println("NO SERVICE REGISRY FOUND, starting Microservice on port 8081")
-        run(8081)
-    end
-end
-
-register()
+register("client")
 end

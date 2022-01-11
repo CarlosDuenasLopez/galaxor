@@ -4,13 +4,14 @@ using ..RegistryPersistence
 
 function getValidPorts(service_name)
     ps = RegistryPersistence.getValidPorts(service_name)
-    println("Ports: ", ps)
     return ps
 end
 
 function registerNew(name)
     println("REGISTERING $name")
-    return RegistryPersistence.registerNew(name)
+    r = RegistryPersistence.registerNew(name)
+    println("PORT: ", r)
+    return r
 end
 
 end # module

@@ -1,0 +1,3 @@
+module AnimatorModel
+
+end # module

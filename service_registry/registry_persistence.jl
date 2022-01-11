@@ -9,7 +9,6 @@ CON = RedisConnection()
 
 function getValidPorts(name)
     ports = getPorts(name)
-    println(ports)
     valid_ports = []
     for p in ports
         try
