@@ -3,14 +3,17 @@ using JSON3: include
 using ..SimulatorPersistence
 using JSON3
 using HTTP
+using Redis
 
 include("../utils.jl")
+CON = RedisConnection()
 
 function simulate(body)
     println("yo")
     sys_name, iterations, dt = extract(body)
     bodies = SimulatorPersistence.getBodies(sys_name)
     posis = run_sim(iterations, bodies, dt)
+    println(posis)
     sendToAnimation(posis)
     return posis
 end
@@ -19,10 +22,23 @@ end
 function extract(body)
     body_str = String(body)
     read_json = JSON3.read(body_str)
-    sys_name = read_json["system"]
-    iterations = read_json["iterations"]
-    dt = read_json["dt"]
+    sys_name = getParam("system", read_json, "")
+    iterations = parse(Int, getParam("iterations", read_json, "500"))
+    dt = parse(Int, getParam("dt", read_json, "10000"))
     return sys_name, iterations, dt
+end
+
+function getParam(param, json, default)
+    if param in keys(json)
+        r = json[param]
+    else
+        r = hget(CON, "configuration", param)
+        if r == nothing
+            r = default
+        end
+    end
+    println(param, " ", r)
+    return r
 end
 
 
@@ -31,7 +47,11 @@ function sendToAnimation(posis)
     anim_port = getServicePort("animator")
     address = "http://127.0.0.1:$(anim_port)/animator"
     println(address)
-    HTTP.post(address, [], body)
+    try
+        HTTP.post(address, [], body, retries=0)
+    catch
+        println("no animator online")
+    end
 end
 
 

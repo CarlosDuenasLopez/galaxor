@@ -126,3 +126,4 @@ All data is stored in redis.
 - HASH "ports": Hashmap of KEY VALUE pairs like: port: service_name
 - KEY VALUE pairs like: system_name: string_description_of_system
 - LIST "systems": List of all system names
+- HASH "configuration": Stores key value pairs for configuration parameters

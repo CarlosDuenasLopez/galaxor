@@ -22,11 +22,17 @@ function main()
             println("Enter name of desired system or press enter to see available systems")
             sys = readline()
             if length(sys)>0
+                d = Dict{Any, Any}("system"=>sys)
                 println("Enter number of iterations")
-                iterations = parse(Int, readline())
+                iterations = readline()
+                if length(iterations)>0
+                    d["iterations"] = iterations
+                end
                 println("Enter time step size")
-                dt = parse(Int, readline())
-                d = Dict("system"=>sys, "iterations"=>iterations, "dt"=>dt)
+                dt = readline()
+                if length(dt) >0
+                    d["dt"] = dt
+                end
                 body = JSON3.write(d)
                 JSON3.read(body)
                 sim_port = getServicePort("simulator")
