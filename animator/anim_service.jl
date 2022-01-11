@@ -23,8 +23,6 @@ end
 
 
 function vis(posis, frames)
-    println(posis)
-    println(typeof(posis[1][1]))
     set_theme!(theme_black())
     fig = Figure(resolution = (1000, 1000))
     ax = Axis3(fig[1, 1], aspect = (1, 1, 1),
@@ -33,13 +31,13 @@ function vis(posis, frames)
     start_posis = [i[1] for i in posis]
     planets = Node(start_posis)
     colors = [:yellow, :blue, :white, :red, :orange]
-    scatter!(ax, planets, color=colors, markersize=5000)
+    scatter!(ax, planets, #=color=colors=# markersize=5000)
     tails = Vector{Node}()
     for (i, p) in enumerate(posis)
         push!(tails, Node([p[1]]))
-        lines!(ax, tails[end], color=colors[i])
+        lines!(ax, tails[end], #=color=colors[i]=#)
     end
-    record(fig, "example.gif", 1:frames, framerate = 50) do frame
+    record(fig, "sys.gif", 1:frames, framerate = 50) do frame
         for planet_idx in 1:length(posis)
             current_tail = tails[Int(planet_idx)][]
             push!(current_tail, posis[Int(planet_idx)][Int(frame)])
@@ -51,6 +49,7 @@ function vis(posis, frames)
         notify(planets)
         notify.(tails)
     end
+    println("done animating")
 end
 
 end # module
