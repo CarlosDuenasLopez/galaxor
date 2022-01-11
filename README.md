@@ -59,6 +59,7 @@ end
 On the registry side, for any POST request to /registry/*some_name*
 *some_name* is passed to this function:
 
+
 ```Julia
 function registerNew(name)
     ports = parse.(Int, hkeys(CON, "ports"))
