@@ -6,7 +6,7 @@ include("utils.jl")
 function main()
     println("Welcome to Galaxor!")
     while true
-        println("Add system [a] or simulate existing one [s]?")
+        println("Add system [a], simulate existing one [s], or change configuration [c]?")
         answer = readline()
         if occursin("a", answer)
             println("Enter path of .json file:")
@@ -37,6 +37,24 @@ function main()
                 HTTP.get(address, [], body)
             else
                 # print existing systems
+            end
+        elseif occursin("c", answer)
+            println("Enter name of parameter to be changed or added or press enter to view current config")
+            port = getServicePort("config")
+            address = "http://localhost:$port/config"
+            param = readline()
+            if length(param) > 0
+                println("Enter value for $param")
+                value = readline()
+                d = Dict(param=>value)
+                body = JSON3.write(d)
+                HTTP.post(address, [], body)
+            else
+                params = HTTP.get(address).body |> String |> JSON3.read |> Dict
+                for key in keys(params)
+                    println("$key: $(params[key])")
+                end
+                println("\n")
             end
         end
     end

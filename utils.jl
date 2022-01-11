@@ -1,4 +1,7 @@
+using HTTP
+
 function register(name)
+    println("registering $name")
     for i in 1:2
         try
             resp = HTTP.post("http://localhost:8080/registry/$name")

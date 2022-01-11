@@ -17,7 +17,6 @@ include("simulator_controller.jl")
 using .SimulatorController
 
 function run(port)
-    println("simming")
     SimulatorController.run(port)
 end
 
