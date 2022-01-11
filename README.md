@@ -87,6 +87,6 @@ GET requests to /registry/*some_name* return all ports on which a microservice w
 All data is stored in redis.
 
 ### Structure:
-- LIST "ports": A list of all ports
-- LISTS *serviceName*_services ports on which a *serviceName* runs
-- LIST "systems" list of all registered systems of celestial bodies
+- HASH "ports": Hashmap of KEY VALUE pairs like: port: service_name
+- KEY VALUE pairs like: system_name: string_description_of_system
+- LIST "systems": List of all system names
