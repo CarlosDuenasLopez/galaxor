@@ -2,6 +2,7 @@ module AnimatorService
 using JSON3
 using JSON
 using GLMakie
+using GeometryBasics
 
 function animate(body)
     println("ANIMATING")
@@ -14,7 +15,7 @@ function extract_posis(body)
     posis = JSON.parse(posi_str)
     for planet in posis
         for ps in 1:length(planet)
-            planet[ps] = Vector{Float32}(planet[ps])
+            planet[ps] = Point(planet[ps]...)
         end
     end
     posis
@@ -23,7 +24,7 @@ end
 
 function vis(posis, frames)
     println(posis)
-    println(typeof(posis))
+    println(typeof(posis[1][1]))
     set_theme!(theme_black())
     fig = Figure(resolution = (1000, 1000))
     ax = Axis3(fig[1, 1], aspect = (1, 1, 1),
