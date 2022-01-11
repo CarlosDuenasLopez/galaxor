@@ -9,23 +9,14 @@ using ..ClientService
 
 const ROUTER = HTTP.Router()
 
-getFormula(req) = ClientService.getFormula(HTTP.URIs.splitpath(req.target)[2])
-HTTP.@register(ROUTER, "GET", "/formula/*", getFormula)
-
-newFormula(req) = ClientService.newFormua(HTTP.URIs.splitpath(req.target)[2])
-HTTP.@register(ROUTER, "POST", "/formula/*", newFormula)
-
-getAll(req) =  ClientService.getAllFormulas()
-HTTP.@register(ROUTER, "GET", "/formula/", getAll)
-
 standard_resp(req) = ClientService.stdResp()
 HTTP.@register(ROUTER, "GET", "/*", standard_resp)
 
-alive(req) = amAlive()
-HTTP.@register(ROUTER, "GET", "/alive", alive)
-
 add_body(req) = ClientService.addBody(req)
 HTTP.@register(ROUTER, "POST", "/add_body", add_body)
+
+alive(req) = amAlive()
+HTTP.@register(ROUTER, "GET", "/alive", alive)
 
 function amAlive()
     true

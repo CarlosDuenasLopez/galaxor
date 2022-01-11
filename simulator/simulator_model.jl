@@ -1,5 +1,6 @@
 module  SimulatorModel
 
+using GeometryBasics
 mutable struct Body
     posi::Point
     velocity::Point

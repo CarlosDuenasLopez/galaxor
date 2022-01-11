@@ -9,6 +9,7 @@ CON = RedisConnection()
 
 function getValidPorts(name)
     ports = getPorts(name)
+    println(ports)
     valid_ports = []
     for p in ports
         try
@@ -30,7 +31,6 @@ end
 
 function registerNew(name)
     clear_db(name)
-    println("registering ", name)
     key = name * "_services"
     registered_ports = lrange(CON, "ports", 0, -1)
     port = 0
@@ -40,8 +40,10 @@ function registerNew(name)
             break
         end
     end
-    println("yo")
     rpush(CON, "ports", port)
+    if name ∉ lrange(CON, "services", 0, -1)
+        rpush(CON, "services", name)
+    end
     rpush(CON, key, port)
     return port
 end

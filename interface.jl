@@ -1,32 +1,51 @@
 using JSON3
+using JSON
 using HTTP
 
 function main()
     println("Welcome to Galaxor!")
-    println("Do you want to enter a new system via a .json file [j] or manually [m]?")
-    x = readline()
-    if occursin("j", x)
-        while true
-            println("Enter path of json file:")
+    while true
+        println("Add system [a] or simulate existing one [s]?")
+        answer = readline()
+        if occursin("a", answer)
+            println("Enter path of .json file:")
             path = readline()
             json_str = read(path, String)
 
-            client_ports = split(String(getClient().body)[2:end-1], ", ")[1]
+            client_port = getClient()
 
-            address = "http://127.0.0.1:$(client_ports)/add_body"
-            println(address)
+            address = "http://127.0.0.1:$(client_port)/add_body"
+            println(json_str)
             HTTP.post(address, [], json_str)
+        elseif occursin("s", answer)
+            println("Enter name of desired system or press enter to see available systems")
+            sys = readline()
+            if length(sys)>0
+                println("Enter number of iterations")
+                iterations = parse(Int, readline())
+                println("Enter time step size")
+                dt = parse(Int, readline())
+                body = string(JSON.json(Dict("system"=>sys, "iterations"=>iterations, "dt"=>dt)))
+                JSON3.read(body)
+                sim_port = getSimulator()
+
+                address = "http://127.0.0.1:$(sim_port)/simulator"
+                println(body)
+                HTTP.get(address, [], body)
+            else
+                # print existing systems
+            end
         end
-    elseif occursin("m", x)
-        println("What's the name of the system?")
-        system_name = readline()
-        println("Enter name for celestial body?")
-        pname = readline()
-        println("Enter position like *x, y, z* ex.: \"10, 0, 0\"")
     end
 end
 
 
+function getSimulator()
+    println(String(HTTP.get("http://localhost:8080/registry/simulator").body))
+    split(String(HTTP.get("http://localhost:8080/registry/simulator").body)[2:end-1], ",")[1]
+end
+
+
 function getClient()
-    HTTP.get("http://localhost:8080/registry/client")
+    split(String(HTTP.get("http://localhost:8080/registry/client").body)[2:end-1], ",")[1]
 end

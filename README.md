@@ -89,3 +89,4 @@ All data is stored in redis.
 ### Structure:
 - LIST "ports": A list of all ports
 - LISTS *serviceName*_services ports on which a *serviceName* runs
+- LIST "systems" list of all registered systems of celestial bodies
