@@ -22,6 +22,7 @@ function requestHandler(req)
 end
 
 function run()
+    println("starting registry on port 8080")
     HTTP.serve(requestHandler, "0.0.0.0", 8080)
 end
 end # module

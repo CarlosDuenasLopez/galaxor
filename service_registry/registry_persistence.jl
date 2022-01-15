@@ -1,10 +1,24 @@
 module RegistryPersistence
 
-using DataFrames
 using HTTP
 using Redis
 
-CON = RedisConnection()
+function connect_redis()
+    println("connecting")
+    if "MYREDIS" in keys(ENV)
+        try
+            add, port = split(ENV["MYREDIS"], ":")
+        catch
+            println(ENV["MYREDIS"])
+            return RedisConnection(host=ENV["MYREDIS"])
+        end
+        println(add)
+        return RedisConnection(host=add, port=port)
+    end
+    return RedisConnection()
+end
+
+CON = RedisConnection(host="redis")
 
 
 function registerNew(name)
