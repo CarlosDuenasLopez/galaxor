@@ -1,7 +1,7 @@
 module Animator
 using HTTP
 
-include("../utils.jl")
+include("utils.jl")
 
 include("anim_model.jl")
 using .AnimatorModel

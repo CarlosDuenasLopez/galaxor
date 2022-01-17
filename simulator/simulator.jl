@@ -2,7 +2,7 @@ module Simulator
 using HTTP
 
 
-include("../utils.jl")
+include("utils.jl")
 
 include("simulator_model.jl")
 using .SimulatorModel

@@ -6,7 +6,7 @@ using HTTP
 
 export ClientService, ClientController
 
-include("../utils.jl")
+include("utils.jl")
 
 include("client_persistence.jl")
 using .ClientPersistence

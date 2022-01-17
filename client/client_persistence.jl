@@ -1,9 +1,11 @@
 module ClientPersistence
 
+using JSON3: include
 using Redis
 using JSON3
 
-CON = RedisConnection()
+include("utils.jl")
+CON = connect_redis()
 
 function addBody(body_str)
     json = JSON3.read(body_str)

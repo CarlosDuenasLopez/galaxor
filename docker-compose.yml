@@ -1,0 +1,18 @@
+version: '3'
+services:
+    redis:
+        image: redis:alpine
+        volumes:
+            - redis:/data
+    animator:
+        build: ./animator
+    client:
+        build: ./client
+    config:
+        build: ./config
+    simulator:
+        build: ./simulator
+
+volumes:
+    redis:
+        driver: local

@@ -7,6 +7,4 @@ ENV INDOCKER=true
 COPY ./ ./
 RUN julia install.jl
 
-
-
-CMD julia simulator.jl
+CMD julia config.jl

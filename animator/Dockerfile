@@ -1,5 +1,10 @@
 FROM julia:latest
 
-RUN ../install.jl
+EXPOSE 80
+
+ENV INDOCKER=true
+
+COPY ./ ./
+RUN julia install.jl
 
 CMD julia animator.jl

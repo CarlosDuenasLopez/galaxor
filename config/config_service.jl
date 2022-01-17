@@ -1,9 +1,12 @@
 module ConfigService
 
+using JSON3: include
 using JSON3
 using Redis
 
-CON = RedisConnection()
+include("utils.jl")
+
+CON = connect_redis()
 
 function configure(body)
     json = JSON3.read(body)

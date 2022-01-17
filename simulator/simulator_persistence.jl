@@ -1,10 +1,12 @@
 module SimulatorPersistence
 
+using JSON3: include
 using JSON3
 using Redis
 using GeometryBasics
 using ..SimulatorModel
-CON = RedisConnection()
+include("utils.jl")
+CON = connect_redis()
 
 function getBodies(sys_name)
     json_str = get(CON, sys_name)

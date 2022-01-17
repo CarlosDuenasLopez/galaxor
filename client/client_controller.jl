@@ -2,7 +2,6 @@
 
 module ClientController
 using HTTP: @register
-using Revise
 
 using HTTP, JSON3
 using ..ClientService

@@ -4,7 +4,9 @@ function register(name)
     println("registering $name")
     for i in 1:2
         try
-            resp = HTTP.post("http://localhost:8080/registry/$name")
+            address = get_address("registry", "registry", name)
+            println(address)
+            resp = HTTP.post(address)
             port = parse(Int, String(resp.body))
             run(port)
         catch
@@ -15,12 +17,21 @@ function register(name)
 end
 
 function getServicePort(name)
-    split(String(HTTP.get("http://localhost:8080/registry/$name").body)[2:end-1], ",")[1][2:end-1]
+    address = get_address("registry", "registry", name)
+    split(String(HTTP.get(address).body)[2:end-1], ",")[1][2:end-1]
+end
+
+function connect_redis()
+    println("connecting")
+    if "INDOCKER" in keys(ENV)
+        return RedisConnection(host="redis")
+    end
+    return RedisConnection()
 end
 
 function get_address(name, slashs...)
     if "INDOCKER" in keys(ENV)
-        return name
+        return name * join(slashs, "/")
     end
     port = getServicePort(name)
     return "http://localhost:$port/" * join(slashs, "/")

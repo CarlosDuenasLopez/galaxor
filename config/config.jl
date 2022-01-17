@@ -1,5 +1,5 @@
 module Conifg
-include("../utils.jl")
+include("utils.jl")
 
 include("config_service.jl")
 using .ConfigService

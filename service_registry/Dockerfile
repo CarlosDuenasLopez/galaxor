@@ -1,7 +1,10 @@
 # FROM redis
 FROM julia:latest
-# ENV MYREDIS=redis
-COPY install.jl ./
+
+EXPOSE 80
+
+ENV INDOCKER=true
+
 COPY ./ ./
 RUN julia install.jl
 

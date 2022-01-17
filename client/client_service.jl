@@ -2,7 +2,6 @@
 
 module ClientService
 using Base: String
-using Revise
 using ..ClientPersistence
 
 

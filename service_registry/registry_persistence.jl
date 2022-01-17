@@ -1,24 +1,11 @@
 module RegistryPersistence
 
+using Redis: include
 using HTTP
 using Redis
+include("utils.jl")
 
-function connect_redis()
-    println("connecting")
-    if "MYREDIS" in keys(ENV)
-        try
-            add, port = split(ENV["MYREDIS"], ":")
-        catch
-            println(ENV["MYREDIS"])
-            return RedisConnection(host=ENV["MYREDIS"])
-        end
-        println(add)
-        return RedisConnection(host=add, port=port)
-    end
-    return RedisConnection()
-end
-
-CON = RedisConnection()
+CON = connect_redis()
 
 
 function registerNew(name)

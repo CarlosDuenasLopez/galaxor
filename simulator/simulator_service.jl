@@ -1,13 +1,13 @@
 module SimulatorService
-using JSON3: include
+
 using ..SimulatorPersistence
 using JSON3
 using HTTP
 using Redis
 using LinearAlgebra:norm
 
-include("../utils.jl")
-CON = RedisConnection()
+include("utils.jl")
+CON = connect_redis()
 
 function simulate(body)
     sys_name, iterations, dt = extract(body)
@@ -42,8 +42,7 @@ end
 
 function sendToAnimation(posis)
     body = JSON3.write(posis)
-    anim_port = getServicePort("animator")
-    address = "http://127.0.0.1:$(anim_port)/animator"
+    address = get_address("animator", "animator")
     try
         HTTP.post(address, [], body, retries=0)
     catch
@@ -99,5 +98,6 @@ end
 function dist(p1, p2)
     √sum((big.(p2.posi-p1.posi) .^ 2))
 end
+
 
 end # module
