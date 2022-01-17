@@ -40,7 +40,11 @@ function simulate()
         address = "http://127.0.0.1:$(sim_port)/simulator"
         println(body)
         println(address)
-        HTTP.get(address, [], body)
+        try
+            HTTP.get(address, [], body)
+        catch
+            println("That did not work. Maybe check if system exists.")
+        end
     else
         # print existing systems
     end
@@ -70,7 +74,11 @@ end
 function add_sys()
     println("Enter path of .json file:")
     path = readline()
-    json_str = read(path, String)
+    try
+        json_str = read(path, String)
+    catch
+        println("specified file not found.")
+    end
     if verify_json(json_str)
         client_port = getServicePort("client")
 
