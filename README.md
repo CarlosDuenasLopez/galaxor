@@ -1,5 +1,6 @@
 # Galaxor
 
+![example](./example.gif)
 
 
 ## About
