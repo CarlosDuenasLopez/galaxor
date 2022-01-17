@@ -9,8 +9,8 @@ using ..ClientService
 
 const ROUTER = HTTP.Router()
 
-standard_resp(req) = ClientService.stdResp()
-HTTP.@register(ROUTER, "GET", "/*", standard_resp)
+system_list(req) = ClientService.system_list()
+HTTP.@register(ROUTER, "GET", "/client", system_list)
 
 add_body(req) = ClientService.addBody(req)
 HTTP.@register(ROUTER, "POST", "/add_body", add_body)

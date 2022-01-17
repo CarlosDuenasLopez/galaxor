@@ -19,5 +19,9 @@ function getBodies()
     return ClientPersistence.getSystems()
 end
 
+function system_list()
+    return ClientPersistence.getSystems()
+end
+
 
 end # module

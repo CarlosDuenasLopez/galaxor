@@ -47,6 +47,11 @@ function simulate()
         end
     else
         # print existing systems
+        port = getServicePort("client")
+        x = HTTP.get("http://127.0.0.1:$port/client")
+        println("Systems currently registered:\n")
+        println.(JSON3.read(String(x.body)))
+        println("\n")
     end
 end
 
