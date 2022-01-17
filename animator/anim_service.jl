@@ -28,19 +28,19 @@ function vis(posis, frames)
     ax = Axis3(fig[1, 1], aspect = (1, 1, 1),
     limits = (-10f11/4, 10f11/4, -10f11/4, 10f11/4, -10f11/4, 10f11/4,))
 
-    start_posis = [i[1] for i in posis]
+    start_posis = [Float64.(i[1]) for i in posis]
     planets = Node(start_posis)
     colors = [:yellow, :blue, :white, :red, :orange]
     scatter!(ax, planets, #=color=colors=# markersize=5000)
     tails = Vector{Node}()
     for (i, p) in enumerate(posis)
-        push!(tails, Node([p[1]]))
+        push!(tails, Node([Float64.(p[1])]))
         lines!(ax, tails[end], #=color=colors[i]=#)
     end
     record(fig, "sys.gif", 1:frames, framerate = 50) do frame
         for planet_idx in 1:length(posis)
             current_tail = tails[Int(planet_idx)][]
-            push!(current_tail, posis[Int(planet_idx)][Int(frame)])
+            push!(current_tail, posis[Int(planet_idx)][frame])
             if length(current_tail) > 50
                 deleteat!(current_tail, 1)
             end

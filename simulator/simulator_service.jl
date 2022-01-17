@@ -4,16 +4,15 @@ using ..SimulatorPersistence
 using JSON3
 using HTTP
 using Redis
+using LinearAlgebra:norm
 
 include("../utils.jl")
 CON = RedisConnection()
 
 function simulate(body)
-    println("yo")
     sys_name, iterations, dt = extract(body)
     bodies = SimulatorPersistence.getBodies(sys_name)
     posis = run_sim(iterations, bodies, dt)
-    println(posis)
     sendToAnimation(posis)
     return posis
 end
@@ -37,7 +36,6 @@ function getParam(param, json, default)
             r = default
         end
     end
-    println(param, " ", r)
     return r
 end
 
@@ -46,7 +44,6 @@ function sendToAnimation(posis)
     body = JSON3.write(posis)
     anim_port = getServicePort("animator")
     address = "http://127.0.0.1:$(anim_port)/animator"
-    println(address)
     try
         HTTP.post(address, [], body, retries=0)
     catch
@@ -98,5 +95,9 @@ function run_sim(iterations, bodies, dt)
 
     all_posis
 end
-    
+   
+function dist(p1, p2)
+    √sum((big.(p2.posi-p1.posi) .^ 2))
 end
+
+end # module

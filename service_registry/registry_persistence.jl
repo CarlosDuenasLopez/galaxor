@@ -18,7 +18,7 @@ function connect_redis()
     return RedisConnection()
 end
 
-CON = RedisConnection(host="redis")
+CON = RedisConnection()
 
 
 function registerNew(name)
