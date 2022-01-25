@@ -2,7 +2,7 @@ using HTTP
 
 function register(name)
     println("registering $name")
-    if "ISDOCKER" not in keys(ENV)
+    if "INDOCKER" ∉ keys(ENV)
         for i in 1:2
             try
                 address = get_address("registry", "registry", name)

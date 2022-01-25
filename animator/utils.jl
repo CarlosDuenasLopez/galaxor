@@ -2,7 +2,7 @@ using HTTP
 
 function register(name)
     println("registering $name")
-    if "ISDOCKER" not in keys(ENV)
+    if "INDOCKER" ∉ keys(ENV)
         for i in 1:2
             try
                 address = get_address("registry", "registry", name)
@@ -16,7 +16,6 @@ function register(name)
         println("NO SERVICE REGISRY FOUND, starting Microservice on port 8081")
         run(8081)
     else
-        println("running on port 80 because ISDOCKER")
         run(80)
     end
 end

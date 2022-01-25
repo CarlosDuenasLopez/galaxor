@@ -2,18 +2,22 @@ using HTTP
 
 function register(name)
     println("registering $name")
-    for i in 1:2
-        try
-            address = get_address("registry", "registry", name)
-            println(address)
-            resp = HTTP.post(address)
-            port = parse(Int, String(resp.body))
-            run(port)
-        catch
+    if "INDOCKER" ∉ keys(ENV)
+        for i in 1:2
+            try
+                address = get_address("registry", "registry", name)
+                println(address)
+                resp = HTTP.post(address)
+                port = parse(Int, String(resp.body))
+                run(port)
+            catch
+            end
         end
+        println("NO SERVICE REGISRY FOUND, starting Microservice on port 8081")
+        run(8081)
+    else
+        run(80)
     end
-    println("NO SERVICE REGISRY FOUND, starting Microservice on port 8081")
-    run(8081)
 end
 
 function getServicePort(name)

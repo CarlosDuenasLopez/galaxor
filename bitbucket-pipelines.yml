@@ -1,0 +1,31 @@
+#  Template maven-build
+
+#  This template allows you to test and build your Java project with Maven.
+#  The workflow allows running tests, code checkstyle and security scans on the default branch.
+
+# Prerequisites: pom.xml and appropriate project structure should exist in the repository.
+
+image: docker:dind
+
+options:
+  docker: true
+
+pipelines:
+  default:
+    - parallel:
+      - step:
+          name: Build and Test
+          script:
+            - apk add docker-compose
+            # Test the with the docker-compose for 60 seconds, see if it runs properly for the first 60 seconds:
+            - docker-compose up --build
+            - docker-compose down
+          after-script:
+              # Collect checkstyle results, if any, and convert to Bitbucket Code Insights.
+            - pipe: atlassian/checkstyle-report:0.3.0
+      - step:
+          name: Security Scan
+          script:
+            # Run a security scan for sensitive data.
+            # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+            - pipe: atlassian/git-secrets-scan:0.5.1
