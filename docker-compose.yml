@@ -4,8 +4,8 @@ services:
         image: redis:alpine
         volumes:
             - redis:/data
-    registry:
-        build: ./service_registry
+    # registry:
+    #     build: ./service_registry
     animator:
         build: ./animator
     client:
@@ -18,3 +18,5 @@ services:
 volumes:
     redis:
         driver: local
+
+# lol
