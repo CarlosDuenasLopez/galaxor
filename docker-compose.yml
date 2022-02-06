@@ -1,0 +1,11 @@
+version: '3'
+services:
+  mongo:
+    image: mongo
+    expose:
+      - 80
+      - 27017
+  topics:
+    depends_on:
+      - mongo
+    build: .
