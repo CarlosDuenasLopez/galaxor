@@ -1,3 +1,0 @@
-module AnimatorPersistence
-
-end # module
